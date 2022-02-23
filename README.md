@@ -29,5 +29,11 @@ compliance-operator                                  Red Hat Operators     6d20h
 
 4.  `oc apply -f CO_install.yaml` to install the operator from CLI.  Else, this can be imported and added to a gitops pipeline.
 
-## Configure Scan Setting and Scan Setting Binding
+## Configure Scan Setting, Scan Setting Binding, and results server
+
+5.  After install complete and confirmed, it's time to configure scan settings.  This is done by creating a yaml manifest declaring the settings (seen in this repo as CO__ss_ssb.yaml). The scan settings tell the cluster how often to scan, which type of nodes to scan, and define any required tolerations to allow the scans to run on any tainted nodes.  Additionally, auto update/auto apply are controlled by the contents of this manifest.  False requires manual intervention for remediation, true will perform such actions automatically IN THEORY.  In practice, there will still be several items which will require manual intervention.
+
+6.  With this complete, its time to configure scan setting bindings.  This is done by creating a yaml manifest declaring the settings (seen in this repo as CO__ss_ssb.yaml) As a reminder, several individual manifests can be combined into one singular manifest file.  This manifest declares which compliance profile the cluster will be scanned against / will be made compliant to.  For reference, all of the supported profiles are found in the reference link above.  For this implementation example, ocp4-cis and ocp4-cis-node are used.
+
+7.  Finally, if the environment does not permit deployment of PVs/PVCs onto master nodes, a resultserver pod can be configured.  An example of such is located in CO_rs.yaml.
 
