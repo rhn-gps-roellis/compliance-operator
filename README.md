@@ -15,7 +15,7 @@ compliance-operator                                  Red Hat Operators     6d20h
 
 2. `oc describe packagemanifests compliance-operator -n openshift-marketplace`, verify install modes and versions available.  You will need this when you want to create your operator subscription. See manifest.md (in main dir of this repo) for an example of the output from this command.  
 
-3.  From the manifest, we can see the following install modes, and the available channel is release-0.1.  AllNamespaces is not supported.  As such, create manifest for a namespace for this operator to use and an operator group. (see compliance_operator.yaml).  Also create a manifest for this operator's subscription.
+3.  From the manifest, we can see the following install modes, and the available channel is release-0.1.  AllNamespaces is not supported.  As such, create manifest for a namespace for this operator to use and an operator group. (see CO_install.yaml).create a manifest for this operator's subscription in the same yaml manifest.
 
 `      Install Modes:
         Supported:  true
@@ -27,4 +27,7 @@ compliance-operator                                  Red Hat Operators     6d20h
         Supported:  false
         Type:       AllNamespaces`
 
+4.  `oc apply -f CO_install.yaml` to install the operator from CLI.  Else, this can be imported and added to a gitops pipeline.
+
 ## Configure Scan Setting and Scan Setting Binding
+
