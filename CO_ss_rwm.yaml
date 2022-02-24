@@ -1,0 +1,27 @@
+apiVersion: compliance.openshift.io/v1alpha1
+kind: ScanSetting
+metadata:
+  name: default-auto-apply
+  namespace: openshift-compliance
+autoUpdateRemediations: true 
+autoApplyRemediations: true 
+rawResultStorage:
+  pvAccessModes:
+    - ReadWriteMany
+  storageClassName: <your_RWM_capable_storageclass>
+  rotation: 3
+  size: 1Gi
+schedule: 0 1 * * *
+roles:
+  - worker
+  - master
+  - infra
+scanTolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+    operator: Exists
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/infra
+    operator: Exists
+
+

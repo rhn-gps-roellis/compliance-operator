@@ -31,13 +31,14 @@ compliance-operator                                  Red Hat Operators     6d20h
 
 ## Configure Scan Setting, Scan Setting Binding, and results server
 
-5.  After install complete and confirmed, it's time to configure scan settings.  This is done by creating a yaml manifest declaring the settings (seen in this repo as CO__ss_ssb.yaml). The scan settings tell the cluster how often to scan, which type of nodes to scan, and define any required tolerations to allow the scans to run on any tainted nodes.  Additionally, auto update/auto apply are controlled by the contents of this manifest.  False requires manual intervention for remediation, true will perform such actions automatically IN THEORY.  In practice, there will still be several items which will require manual intervention.
+5.  After install complete and confirmed, it's time to configure scan settings.  This is done by creating a yaml manifest declaring the settings (seen in this repo as CO__ss_ssb.yaml). The scan settings tell the cluster how often to scan, which type of nodes to scan, and define any required tolerations to allow the scans to run on any tainted nodes.  Additionally, auto update/auto apply are controlled by the contents of this manifest.  When using default-auto-apply, False requires manual intervention for remediation, true will perform such actions automatically IN THEORY.  In practice, there will still be several items which will require manual intervention.  As the default and default-auto-apply scansettings automatically exist in the base install of the compliance operator, run the following command to update any edits to these policies from the CLI.  Else, this can be included into any gitops workflow.
+`oc replace -f CO_ss.yaml`
 
-6.  With this complete, its time to configure scan setting bindings.  This is done by creating a yaml manifest declaring the settings (seen in this repo as CO__ss_ssb.yaml) As a reminder, several individual manifests can be combined into one singular manifest file.  This manifest declares which compliance profile the cluster will be scanned against / will be made compliant to.  For reference, all of the supported profiles are found in the reference link above.  For this implementation example, ocp4-cis and ocp4-cis-node are used.
+6.  With this complete, its time to configure scan setting bindings.  This is done by creating a yaml manifest declaring the settings (seen in this repo as CO_ssb.yaml) As a reminder, several individual manifests can be combined into one singular manifest file.  This manifest declares which compliance profile the cluster will be scanned against / will be made compliant to.  For reference, all of the supported profiles are found in the reference link above.  For this implementation example, ocp4-cis and ocp4-cis-node are used.
 
-7. `oc create -f CO_ss_ssb.yaml` using CLI to create the Scan Settings and Scan Settings binding.  This can also be added to a gitops pipeline/workflow for automation.
+7. `oc create -f CO_ssb.yaml` using CLI to create the Scan Settings binding.  This can also be added to a gitops pipeline/workflow for automation.
 
 8.  Finally, if the environment does not permit deployment of PVs/PVCs onto master nodes, a resultserver pod can be configured.  An example of such is located in CO_rs.yaml.
 
-9. `oc create -f CO_rs.yaml` using CLI to create the Scan Settings and Scan Settings binding.  This can also be added to a gitops pipeline/workflow for automation.
+9. `oc create -f CO_rs.yaml` using CLI to create the reportserver pods.  This can also be added to a gitops pipeline/workflow for automation.
 
